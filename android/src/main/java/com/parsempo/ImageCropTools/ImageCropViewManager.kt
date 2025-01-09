@@ -2,6 +2,7 @@ package com.parsempo.ImageCropTools
 
 import android.graphics.Bitmap
 import android.net.Uri
+import com.canhub.cropper.CropImageOptions
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.ReadableArray
 import com.facebook.react.bridge.ReadableMap
@@ -25,6 +26,7 @@ class ImageCropViewManager: SimpleViewManager<CropImageView>() {
         const val ROTATE_IMAGE_COMMAND = 2
         const val SAVE_IMAGE_COMMAND_NAME = "saveImage"
         const val ROTATE_IMAGE_COMMAND_NAME = "rotateImage"
+        const val CROP_IMAGE_OPTIONS_PROP = "cropImageOptions"
     }
 
     override fun createViewInstance(reactContext: ThemedReactContext): CropImageView {
@@ -71,7 +73,7 @@ class ImageCropViewManager: SimpleViewManager<CropImageView>() {
                 val preserveTransparency = args?.getBoolean(0) ?: false
                 var extension = "jpg"
                 var format = Bitmap.CompressFormat.JPEG
-                if (preserveTransparency && root.croppedImage!!.hasAlpha()) {
+                if (preserveTransparency && root.getCroppedImage(0, 0)!!.hasAlpha()) {
                     extension = "png"
                     format = Bitmap.CompressFormat.PNG
                 }
@@ -96,15 +98,45 @@ class ImageCropViewManager: SimpleViewManager<CropImageView>() {
 
     @ReactProp(name = KEEP_ASPECT_RATIO_PROP)
     fun setFixedAspectRatio(view: CropImageView, fixed: Boolean) {
-        view.setFixedAspectRatio(fixed)
+//        view.setFixedAspectRatio(fixed)
     }
 
     @ReactProp(name = ASPECT_RATIO_PROP)
     fun setAspectRatio(view: CropImageView, aspectRatio: ReadableMap?) {
-        if (aspectRatio != null) {
-            view.setAspectRatio(aspectRatio.getInt("width"), aspectRatio.getInt("height"))
-        }else {
-            view.clearAspectRatio()
-        }
+//        if (aspectRatio != null) {
+//            view.setAspectRatio(aspectRatio.getInt("width"), aspectRatio.getInt("height"))
+//        }else {
+//            view.clearAspectRatio()
+//        }
+    }
+
+    @ReactProp(name = CROP_IMAGE_OPTIONS_PROP)
+    fun setCropImageOptions(view: CropImageView, options: ReadableMap?) {
+        if (options == null) return
+
+        view.setImageCropOptions(
+            CropImageOptions(
+                cropShape = options.getString("cropShape")?.let { CropImageView.CropShape.valueOf(it) } ?: CropImageView.CropShape.RECTANGLE,
+                cornerShape = options.getString("cornerShape")?.let { CropImageView.CropCornerShape.valueOf(it) } ?: CropImageView.CropCornerShape.RECTANGLE,
+                cropCornerRadius = options.getDoubleOrDefault("cropCornerRadius", 10.0).toFloat().dpToPx(),
+                snapRadius = options.getDoubleOrDefault("snapRadius", 3.0).toFloat().dpToPx(),
+                touchRadius = options.getDoubleOrDefault("touchRadius", 24.0).toFloat().dpToPx(),
+                scaleType = options.getString("scaleType")?.let { CropImageView.ScaleType.valueOf(it) } ?: CropImageView.ScaleType.FIT_CENTER,
+                autoZoomEnabled = options.getBooleanOrDefault("autoZoomEnabled", false),
+                multiTouchEnabled = options.getBooleanOrDefault("multiTouchEnabled", false),
+                centerMoveEnabled = options.getBooleanOrDefault("centerMoveEnabled", true),
+                canChangeCropWindow = options.getBooleanOrDefault("canChangeCropWindow", true),
+                maxZoom = options.getIntOrDefault("maxZoom", 4),
+                fixAspectRatio = options.getBooleanOrDefault("fixAspectRatio", false),
+                aspectRatioX = options.getIntOrDefault("aspectRatioX", 1),
+                aspectRatioY = options.getIntOrDefault("aspectRatioY", 1),
+                minCropWindowWidth = options.getIntOrDefault("minCropWindowWidth", 42).toFloat().dpToPx().toInt(),
+                minCropWindowHeight = options.getIntOrDefault("minCropWindowHeight", 42).toFloat().dpToPx().toInt(),
+                minCropResultWidth = options.getIntOrDefault("minCropResultWidth", 40),
+                minCropResultHeight = options.getIntOrDefault("minCropResultHeight", 40),
+                maxCropResultWidth = options.getIntOrDefault("maxCropResultWidth", 99999),
+                maxCropResultHeight = options.getIntOrDefault("maxCropResultHeight", 99999),
+            )
+        )
     }
 }

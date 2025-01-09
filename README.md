@@ -1,3 +1,43 @@
+# fork of hhunaid/react-native-image-crop-tools with changes related to android
+
+## Usage example
+
+```tsx
+import { CropView } from 'react-native-image-crop-tools-android';
+<CropView
+  sourceUrl={uri}
+  style={styles.cropView}
+  ref={cropViewRef}
+  onImageCrop={(res) => console.warn(res)}
+  // See src/crop-view-component.tsx for props and default values
+  androidCropImageOptions={{
+    maxZoom: 1, 
+    cropShape: "OVAL", // Circular cropping window
+    fixAspectRatio: true,
+    aspectRatioX: 1,
+    aspectRatioY: 1,
+    minCropResultWidth: 1024, // Prevents cropped image from getting smaller than 1024px,
+    minCropResultHeight: 1024,// Prevents cropped image from getting smaller than 1024px,
+  }}
+/>
+```
+
+## Why fork this library?
+1. The original library allowed users to zoom into the image multiple times, which caused the image to become very small and blurry.
+2. The internal library used for android is now maintained by a different author.
+
+## Difference from original library
+1. Updated the android-image-cropper library. android-image-cropper is now maintained by a different author.
+2. Added `androidCropImageOptions` prop
+   This prop lets you customize maxZoom, minCropResultWidth, minCropResultHeight and other things. See `src/crop-view-component.tsx` for details.
+3. `aspectRatio` and `keepAspectRatio` props are ignored by android implementation, you can specify them as part of `androidCropImageOptions`
+
+## Opening in android studio
+- Usually we have example app that can be opened in android studio. But the original author couldn't share the Example react native app because it was part of a closed source project. 
+- So for now during developement uncomment 26:29 of build.gradle, and then sync the project. 
+
+---------------------------------
+
 # react-native-image-crop-tools
 
 ## Previews
