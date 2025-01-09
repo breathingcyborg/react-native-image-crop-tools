@@ -23,12 +23,12 @@ export type AndroidCropImageOptions = {
    * Shape of the cropping window.
    * @default "RECTANGLE"
    */
-  cropShape?: "RECTANGLE" | "OVAL" | "RECTANGLE_VERTICAL_ONLY" | "RECTANGLE_HORIZONTAL_ONLY";
+  cropShape?: 'RECTANGLE' | 'OVAL' | 'RECTANGLE_VERTICAL_ONLY' | 'RECTANGLE_HORIZONTAL_ONLY';
   /**
    * Shape of the crop window corners.
    * @default "RECTANGLE"
    */
-  cornerShape?: "RECTANGLE" | "OVAL";
+  cornerShape?: 'RECTANGLE' | 'OVAL';
   /**
    * Radius of the crop window corners in pixels.
    * float
@@ -53,7 +53,7 @@ export type AndroidCropImageOptions = {
    * Scale type of the image in the crop view.
    * @default "FIT_CENTER"
    */
-  scaleType?: "FIT_CENTER" | "CENTER" | "CENTER_CROP" | "CENTER_INSIDE",
+  scaleType?: 'FIT_CENTER' | 'CENTER' | 'CENTER_CROP' | 'CENTER_INSIDE';
 
   /**
    * @default true
@@ -83,7 +83,7 @@ export type AndroidCropImageOptions = {
   maxZoom?: number;
 
   /**
-   * 
+   *
    * @default false
    */
   fixAspectRatio?: boolean;
@@ -102,38 +102,37 @@ export type AndroidCropImageOptions = {
 
   /**
    * Integer
-   * @default 42 
+   * @default 42
    */
-  minCropWindowWidth?: number
+  minCropWindowWidth?: number;
 
   /**
    * Integer
-   * @default 42 
+   * @default 42
    */
   minCropWindowHeight?: number;
 
   /**
    * Integer
-   * @default 40 
+   * @default 40
    */
-  minCropResultWidth?: number
+  minCropResultWidth?: number;
 
   /**
    * Integer
-   * @default 40 
+   * @default 40
    */
   minCropResultHeight?: number;
 
   /**
    * Integer
-   * @default 99999 
+   * @default 99999
    */
   maxCropResultWidth?: number;
 
-
   /**
    * Integer
-   * @default 99999 
+   * @default 99999
    */
   maxCropResultHeight?: number;
 };
@@ -151,7 +150,7 @@ type Props = {
    */
   aspectRatio?: { width: number; height: number };
   iosDimensionSwapEnabled?: boolean;
-  androidCropImageOptions?: AndroidCropImageOptions
+  androidCropImageOptions?: AndroidCropImageOptions;
 };
 
 class CropView extends React.PureComponent<Props> {
